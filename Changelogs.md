@@ -1,3 +1,10 @@
+== 0.3.0
+
+* Add separate helpers for each social
+* Add hashtags support for Twitter and Facebook
+* Allow to use Facebook share dialog with appKey
+* Allow your custom link body
+
 == 0.2.0
 
 * Added social share with LinkedIn feature.
