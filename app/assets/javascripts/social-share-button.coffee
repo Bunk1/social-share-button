@@ -8,9 +8,10 @@ window.SocialShareButton =
 
   share : (el) ->
     site = $(el).data('site')
-    appkey = $(el).data('appkey') || ''
+    appkey = $(el).data(site + '-appkey') || ''
     $parent = $(el).parent()
     title = encodeURIComponent($(el).data(site + '-title') || $parent.data('title') || '')
+    hashtag = encodeURIComponent($(el).data(site + '-hashtag') || $parent.data('hashtag') || '')
     img = encodeURIComponent($parent.data("img") || '')
     url = encodeURIComponent($parent.data("url") || '')
     via = encodeURIComponent($parent.data("via") || '')
@@ -27,11 +28,14 @@ window.SocialShareButton =
       when "twitter"
         via_str = ''
         via_str = "&via=#{via}" if via.length > 0
-        SocialShareButton.openUrl("https://twitter.com/intent/tweet?url=#{url}&text=#{title}#{via_str}",popup)
+        SocialShareButton.openUrl("https://twitter.com/intent/tweet?url=#{url}&text=#{title}#{via_str}&hashtags=#{hashtag}",popup)
       when "douban"
         SocialShareButton.openUrl("http://shuo.douban.com/!service/share?href=#{url}&name=#{title}&image=#{img}&sel=#{desc}",popup)
       when "facebook"
-        SocialShareButton.openUrl("http://www.facebook.com/sharer.php?u=#{url}",popup)
+        if appkey == ''
+          SocialShareButton.openUrl("http://www.facebook.com/sharer.php?u=#{url}",popup)
+        else
+          SocialShareButton.openUrl("https://www.facebook.com/dialog/share?app_id=#{appkey}&href=#{url}&hashtag=%23#{hashtag}",popup)
       when "qq"
         SocialShareButton.openUrl("http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=#{url}&title=#{title}&pics=#{img}&summary=#{desc}&site=#{appkey}", popup)
       when "tqq"
